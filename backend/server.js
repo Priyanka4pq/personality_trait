@@ -6,8 +6,21 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://personality-trait-seven.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
+
+
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
 
 // Database Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -20,6 +33,7 @@ const GradeRange = require('./models/GradeRange');
 const TraitRange = require('./models/TraitRange');
 
 // Routes
+
 app.use('/api', require('./routes/api'));
 
 // Seed Route (Run once)
